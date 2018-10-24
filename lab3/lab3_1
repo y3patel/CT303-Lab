@@ -1,0 +1,40 @@
+X = [];
+T = 1000;
+bit = randn(1000, 7);
+for i = 1 : 1000
+    for j = 1 : 7
+        if(bit(i, j)>= 0.5)
+            bit(i, j) = 1;
+        else 
+            bit(i, j) = -1;
+        end
+    end
+end
+            
+ for j = 0 : 6
+        for k = 1 : 1000
+            X(1, j*1000 + k) = bit(1, j+1);
+        end
+ end
+        
+        
+for i = 2 : 1000
+    dl = randi(1000, 1);
+    for j = 0 : 6
+        for k = 1 : 1000 
+            X(i, j*1000 + k + dl) = bit(i, j+1);
+        end
+    end
+end
+    
+m = [];
+
+for i = 1 : 7000
+    m(1, i) = mean(X(:, i).*X(:, 4000));
+end
+figure(1);
+plot(m);
+psd=fft(m);
+figure(2);
+z = linspace(-2, 2, 7000);
+plot(z, fftshift(abs(psd)));
